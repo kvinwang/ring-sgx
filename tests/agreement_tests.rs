@@ -12,23 +12,6 @@
 // OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 // CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#![forbid(
-    anonymous_parameters,
-    box_pointers,
-    missing_copy_implementations,
-    missing_debug_implementations,
-    missing_docs,
-    trivial_casts,
-    trivial_numeric_casts,
-    unsafe_code,
-    unstable_features,
-    unused_extern_crates,
-    unused_import_braces,
-    unused_qualifications,
-    unused_results,
-    variant_size_differences,
-    warnings
-)]
 
 use ring::{agreement, error, rand, test, test_file};
 use std::prelude::v1::*;
@@ -76,9 +59,8 @@ pub fn agreement_traits() {
     );
 }
 
-//#[allow(clippy::block_in_if_condition_stmt)]
-//#[test]
-pub fn agreement_agree_ephemeral() {
+// #[test]
+fn agreement_agree_ephemeral() {
     let rng = rand::SystemRandom::new();
 
     test::run(test_file!("agreement_tests.txt"), |section, test_case| {
@@ -105,13 +87,12 @@ pub fn agreement_agree_ephemeral() {
 
                 assert_eq!(my_private.algorithm(), alg);
 
-                assert!(
+                let result =
                     agreement::agree_ephemeral(my_private, &peer_public, (), |key_material| {
                         assert_eq!(key_material, &output[..]);
                         Ok(())
-                    })
-                    .is_ok()
-                );
+                    });
+                assert_eq!(result, Ok(()));
             }
 
             Some(_) => {

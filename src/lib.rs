@@ -32,7 +32,7 @@
 //!         <code>rand::SystemRandom</code> for more details.
 //! <tr><td><code>std</code>
 //!     <td>Enable features that use libstd, in particular
-//!         <code>std::error::Error</code> integration.
+//!         <code>std::error::Error</code> integration. Implies `alloc`.
 //! <tr><td><code>wasm32_c</code>
 //!     <td>Enables features that require a C compiler on wasm32 targets, such as
 //!        the <code>constant_time</code> module, HMAC verification, and PBKDF2
@@ -48,7 +48,6 @@
 #![doc(html_root_url = "https://briansmith.org/rustdoc/")]
 #![allow(
     clippy::collapsible_if,
-    clippy::identity_conversion,
     clippy::identity_op,
     clippy::len_without_is_empty,
     clippy::len_zero,
@@ -71,16 +70,6 @@
 // `#[derive(...)]` uses `trivial_numeric_casts` and `unused_qualifications`
 // internally.
 #![deny(missing_docs, unused_qualifications, variant_size_differences)]
-#![forbid(
-    anonymous_parameters,
-    trivial_casts,
-    trivial_numeric_casts,
-    //unstable_features,
-    unused_extern_crates,
-    unused_import_braces,
-    unused_results,
-    //warnings
-)]
 #![cfg_attr(
     any(
         target_os = "redox",
@@ -98,7 +87,7 @@
     ),
     no_std
 )]
-#![cfg_attr(all(target_env = "sgx", target_vendor = "mesalock"), feature(rustc_private))] 
+#![cfg_attr(all(target_env = "sgx", target_vendor = "mesalock"), feature(rustc_private))]
 #[cfg(all(feature = "mesalock_sgx", not(target_env = "sgx")))]
 #[macro_use]
 extern crate sgx_tstd as std;
